@@ -1,0 +1,183 @@
+<div
+  *ngIf="formUsuario.invalid && formUsuario.touched"
+  class="alert alert-danger"
+  role="alert"
+>
+  Favor preencher todos os campos corretamente!
+</div>
+
+<form #formUsuario="ngForm" (ngSubmit)="salvar(formUsuario)">
+  <div class="form-group">
+    <label for="inputNome">Nome</label>
+    <input
+      autocomplete="off"
+      type="text"
+      class="form-control"
+      [ngClass]="{
+        'is-invalid': nome.invalid && nome.touched,
+        'is-valid': nome.valid && nome.touched
+      }"
+      id="inputNome"
+      placeholder="Nome"
+      name="nome"
+      ngModel
+      required
+      minlength="3"
+      #nome="ngModel"
+    />
+    <div *ngIf="nome.valid && nome.touched" class="valid-feedback">
+      Campo ok!
+    </div>
+    <div *ngIf="nome.invalid && nome.touched" class="invalid-feedback">
+      Favor preencher o nome corretamente
+    </div>
+    <!-- <div *ngIf="nome.hasError('required') && nome.dirty">
+      Campo Obrigatório
+    </div>
+    <div *ngIf="nome.hasError('minlength') && nome.dirty">
+      Compo minimo de 3 caracteres
+    </div> -->
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-8">
+      <label for="inputEmail4">E-mail</label>
+      <input
+        type="email"
+        class="form-control"
+        id="inputEmai"
+        placeholder="Email"
+        name="email"
+        ngModel
+        email
+        #email="ngModel"
+      />
+      <div *ngIf="email.hasError('email') && email.dirty">
+        E-mail inválido
+      </div>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputCpf">CPF</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputCpf"
+        placeholder="CPF"
+        name="cpf"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputRg">RG</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputRg"
+        placeholder="RG"
+        name="rg"
+        ngModel
+      />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-2">
+      <label for="inputCep">CEP</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputCep"
+        placeholder="CEP"
+        name="cep"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-8">
+      <label for="inputLogradouro">Logradouro</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputLogradouro"
+        placeholder="Logradouro"
+        name="logradouro"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputNumero">Nº</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputNumero"
+        placeholder="Numero"
+        name="numero"
+        ngModel
+      />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-7">
+      <label for="inputCidade">Cidade</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputCidade"
+        placeholder="Cidade"
+        name="cidade"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-5">
+      <label for="inputEstado">Estado</label>
+      <select id="inputEstado" class="form-control" name="estado" ngModel>
+        <option selected>Selecione</option>
+        <option value="SP">SP</option>
+        <option value="MG">MG</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-1">
+      <label for="inputDdd">DDD</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputDdd"
+        placeholder="DDD"
+        name="ddd"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputTelefone">Nº</label>
+      <input
+        type="text"
+        class="form-control"
+        id="inputTelefone"
+        placeholder="Nª Telefone"
+        name="telefone"
+        ngModel
+      />
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputTipoTelefone">Tipo</label>
+      <select
+        id="inputTipoTelefone"
+        class="form-control"
+        name="tipoTelefone"
+        ngModel
+      >
+        <option selected>Selecione</option>
+        <option value="1">Telefone</option>
+        <option value="2">Celular</option>
+      </select>
+    </div>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <button
+      type="submit"
+      class="btn  btn-primary"
+      [disabled]="!formUsuario.valid"
+    >
+      Salvar
+    </button>
+  </div>
+</form>

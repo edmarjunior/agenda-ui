@@ -1,0 +1,22 @@
+<form>
+  <div class="form-group">
+    <label class="control-label">Nome</label>
+    <input type="text" class="form-control" />
+  </div>
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="campo.onFocus()"
+  >
+    Pesquisar
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-primary ml-1"
+    (click)="campo.onBlur()"
+  >
+    Cadastrar
+  </button>
+</form>
+
+<app-usuario-table></app-usuario-table>
