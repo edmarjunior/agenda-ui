@@ -7,23 +7,23 @@
   <!-- Sidebar -->
   <div id="sidebar">
     <ul class="nav flex-column">
-      <li>
-        <a class="nav-link active" href="#">
+      <li routerLinkActive="active">
+        <a class="nav-link" routerLink="/pacientes">
           <i class="material-icons">pregnant_woman</i>Pacientes</a
         >
       </li>
-      <li>
-        <a class="nav-link" href="#">
+      <li routerLinkActive="active">
+        <a class="nav-link" routerLink="/medicos">
           <i class="material-icons">local_hospital</i>Médicos</a
         >
       </li>
-      <li>
-        <a class="nav-link" href="#">
+      <li routerLinkActive="active">
+        <a class="nav-link" routerLink="/usuarios">
           <i class="material-icons">supervised_user_circle</i>Usuários</a
         >
       </li>
-      <li>
-        <a class="nav-link" href="#" tabindex="-1">
+      <li routerLinkActive="active">
+        <a class="nav-link" routerLink="/agendamentos" tabindex="-1">
           <i class="material-icons">
             schedule
           </i>
@@ -34,8 +34,6 @@
   </div>
   <!-- Content -->
   <div id="content">
-    <h1 class="">Geranciar usuários</h1>
-    <app-usuario-form-pesquisa></app-usuario-form-pesquisa>
-    <!-- <app-usuario-form-dados></app-usuario-form-dados> -->
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -4,3 +4,8 @@ body {
   margin: 0;
   color: #404c51;
 }
+
+.table td,
+.table th {
+  padding: 0.5rem;
+}

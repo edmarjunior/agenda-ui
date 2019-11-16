@@ -1,28 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UsuarioService } from '../usuario.service';
+import { ActivatedRoute } from '@angular/router';
+
+class Usuario {
+  Id: number;
+  Nome: string;
+  Cpf: string;
+  Rg: string;
+  Email: string;
+  Endereco: Endereco;
+  Telefone: Telefone;
+}
 
 class Endereco {
-  cep: string;
-  logradouro: string;
-  numero: number;
-  cidade: string;
-  estado: string;
+  Cep: string;
+  Logradouro: string;
+  Numero: number;
+  Cidade: string;
+  Estado: string;
 }
 
 class Telefone {
-  ddd: number;
-  numero: number;
-  tipo: number;
+  Ddd: number;
+  Numero: number;
+  Tipo: TelefoneTipo;
 }
 
-class Usuario {
-  nome: string;
-  cpf: string;
-  rg: string;
-  email: string;
-  endereco: Endereco;
-  telefone: Telefone;
+class TelefoneTipo {
+  Id: number;
+  Nome: number;
 }
 
 @Component({
@@ -31,41 +38,43 @@ class Usuario {
   styleUrls: ['./usuario-form-dados.component.css']
 })
 export class UsuarioFormDadosComponent implements OnInit {
-  estado = 'SP';
   usuario = new Usuario();
-  endereco = new Endereco();
-  telefone = new Telefone();
-
   usuarios = [];
 
-  constructor(private usuarioService: UsuarioService) {}
-
-  ngOnInit() {
-    // this.usuarioService.consultar().then(data => {
-    //   console.log(data);
-    //   this.usuarios = data;
-    // });
+  constructor(
+    private usuarioService: UsuarioService,
+    private route: ActivatedRoute
+  ) {
+    this.usuario.Endereco = new Endereco();
+    this.usuario.Telefone = new Telefone();
+    this.usuario.Telefone.Tipo = new TelefoneTipo();
   }
 
-  salvar(form: NgForm) {
-    this.endereco.cep = form.value.cep;
-    this.endereco.logradouro = form.value.logradouro;
-    this.endereco.numero = form.value.numero;
-    this.endereco.cidade = form.value.cidade;
-    this.endereco.estado = form.value.estado;
+  ngOnInit() {
+    const id = this.route.snapshot.params.id;
+    if (id) {
+      this.get(id);
+      return;
+    }
+  }
 
-    this.telefone.ddd = form.value.ddd;
-    this.telefone.numero = form.value.telefone;
-    this.telefone.tipo = form.value.tipo;
+  async get(id: number) {
+    this.usuarioService
+      .get(id)
+      .then(response => {
+        this.usuario = response.Content;
+      })
+      .catch(message => {
+        alert(message);
+      });
+  }
 
-    this.usuario.nome = form.value.nome;
-    this.usuario.cpf = form.value.cpf;
-    this.usuario.rg = form.value.rg;
-    this.usuario.email = form.value.email;
-    this.usuario.endereco = this.endereco;
-    this.usuario.telefone = this.telefone;
-
-    // this.usuarioService.adicionar(this.usuario.nome);
+  async save(form: NgForm) {
+    if (this.usuario.Id) {
+      await this.usuarioService.put(this.usuario);
+    } else {
+      await this.usuarioService.post(this.usuario);
+    }
 
     form.reset();
   }

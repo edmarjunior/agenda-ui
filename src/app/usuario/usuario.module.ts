@@ -5,18 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 
-import { UsuarioTableComponent } from './usuario-table/usuario-table.component';
 import { UsuarioFormPesquisaComponent } from './usuario-form-pesquisa/usuario-form-pesquisa.component';
 import { UsuarioFormDadosComponent } from './usuario-form-dados/usuario-form-dados.component';
 import { UsuarioService } from './usuario.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    UsuarioTableComponent,
-    UsuarioFormPesquisaComponent,
-    UsuarioFormDadosComponent
+  declarations: [UsuarioFormPesquisaComponent, UsuarioFormDadosComponent],
+  imports: [
+    CommonModule,
+    NgbModule,
+    FormsModule,
+    CurrencyMaskModule,
+    RouterModule
   ],
-  imports: [CommonModule, NgbModule, FormsModule, CurrencyMaskModule],
   exports: [UsuarioFormPesquisaComponent, UsuarioFormDadosComponent],
   providers: [UsuarioService, { provide: 'logPrefix', useValue: 'LOG2' }]
 })
