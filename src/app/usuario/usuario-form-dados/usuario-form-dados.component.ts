@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { UsuarioService } from '../usuario.service';
-import { ActivatedRoute } from '@angular/router';
 import { ToastService } from 'src/app/shared/toast.service';
+import { Title } from '@angular/platform-browser';
 
 class Usuario {
   Id: number;
@@ -44,7 +46,9 @@ export class UsuarioFormDadosComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private route: ActivatedRoute,
-    private toast: ToastService
+    private toast: ToastService,
+    private router: Router,
+    private title: Title
   ) {
     this.usuario.Endereco = new Endereco();
     this.usuario.Telefone = new Telefone();
@@ -54,7 +58,10 @@ export class UsuarioFormDadosComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.params.id;
     if (id) {
+      this.title.setTitle('Edição - Usuário');
       this.get(id);
+    } else {
+      this.title.setTitle('Cadastro - Usuário');
     }
   }
 
@@ -75,7 +82,10 @@ export class UsuarioFormDadosComponent implements OnInit {
   private async post() {
     await this.usuarioService
       .post(this.usuario)
-      .then(() => this.toast.success('Usuário cadastrado'))
+      .then(response => {
+        this.toast.success('Usuário cadastrado');
+        this.router.navigate(['/usuarios', response.Content.Id]);
+      })
       .catch(error => this.toast.error(error));
   }
 

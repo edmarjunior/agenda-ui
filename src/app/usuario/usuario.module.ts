@@ -7,8 +7,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 import { UsuarioFormPesquisaComponent } from './usuario-form-pesquisa/usuario-form-pesquisa.component';
 import { UsuarioFormDadosComponent } from './usuario-form-dados/usuario-form-dados.component';
-import { UsuarioService } from './usuario.service';
-import { RouterModule } from '@angular/router';
+import { UsuarioRoutingModule } from './usuario-routing.module';
 
 @NgModule({
   declarations: [UsuarioFormPesquisaComponent, UsuarioFormDadosComponent],
@@ -17,9 +16,9 @@ import { RouterModule } from '@angular/router';
     NgbModule,
     FormsModule,
     CurrencyMaskModule,
-    RouterModule
+    UsuarioRoutingModule
   ],
-  exports: [UsuarioFormPesquisaComponent, UsuarioFormDadosComponent],
-  providers: [UsuarioService, { provide: 'logPrefix', useValue: 'LOG2' }]
+  exports: [],
+  providers: []
 })
 export class UsuarioModule {}

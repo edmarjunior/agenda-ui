@@ -4,6 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { UsuarioService } from '../usuario.service';
 import { ToastService } from 'src/app/shared/toast.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-usuario-form-pesquisa',
@@ -27,10 +28,12 @@ export class UsuarioFormPesquisaComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private toast: ToastService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private title: Title
   ) {}
 
   ngOnInit() {
+    this.title.setTitle('Pesquisa - Usuário');
     this.getAll();
   }
 

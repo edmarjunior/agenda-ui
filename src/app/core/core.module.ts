@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsuarioModule } from '../usuario/usuario.module';
-import { Routes, RouterModule } from '@angular/router';
-import { UsuarioFormPesquisaComponent } from '../usuario/usuario-form-pesquisa/usuario-form-pesquisa.component';
-import { UsuarioFormDadosComponent } from '../usuario/usuario-form-dados/usuario-form-dados.component';
-
-const routes: Routes = [
-  { path: 'usuarios', component: UsuarioFormPesquisaComponent },
-  { path: 'usuarios/novo', component: UsuarioFormDadosComponent },
-  { path: 'usuarios/:id', component: UsuarioFormDadosComponent }
-];
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { UsuarioService } from '../usuario/usuario.service';
+import { AppRoutingModule } from './app-routing-module';
 
 @NgModule({
-  declarations: [NavbarComponent],
-  imports: [UsuarioModule, RouterModule.forRoot(routes)],
-  exports: [NavbarComponent]
+  declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
+  imports: [UsuarioModule, AppRoutingModule],
+  exports: [NavbarComponent],
+  providers: [Title, UsuarioService, { provide: 'logPrefix', useValue: 'LOG2' }]
 })
 export class CoreModule {}
