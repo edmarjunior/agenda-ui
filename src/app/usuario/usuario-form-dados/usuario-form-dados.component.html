@@ -3,7 +3,7 @@
     <h5 class="card-title">
       {{ usuario.Id ? 'Edição' : 'Cadastro' }} de usuário
     </h5>
-    <form #formUsuario="ngForm" (ngSubmit)="save(formUsuario)">
+    <form #formUsuario="ngForm" (ngSubmit)="save()">
       <div class="form-group">
         <label for="inputNome">Nome</label>
         <input

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export interface UsuarioFiltros {
   nome: string;
@@ -38,16 +39,15 @@ export interface TelefoneTipo {
 
 @Injectable()
 export class UsuarioService {
-  private baseUrl = 'https://agenda-api.azurewebsites.net/api/usuarios';
+  url: string;
 
-  constructor(
-    private http: HttpClient,
-    @Inject('logPrefix') private logPrefix: string
-  ) {}
+  constructor(private http: HttpClient) {
+    this.url = `${environment.baseUrl}/api/usuarios`;
+  }
 
   async post(usuario: Usuario): Promise<any> {
     return await this.http
-      .post(this.baseUrl, usuario)
+      .post(this.url, usuario)
       .toPromise()
       .catch(response => this.reject(response));
   }
@@ -61,28 +61,28 @@ export class UsuarioService {
       .set('size', filtros.size.toString());
 
     return this.http
-      .get(this.baseUrl, { params })
+      .get(this.url, { params })
       .toPromise()
       .catch(response => this.reject(response));
   }
 
   async get(id: number): Promise<any> {
     return await this.http
-      .get(`${this.baseUrl}/${id}`)
+      .get(`${this.url}/${id}`)
       .toPromise()
       .catch(response => this.reject(response));
   }
 
   async delete(id: number): Promise<void> {
     await this.http
-      .delete(`${this.baseUrl}/${id}`)
+      .delete(`${this.url}/${id}`)
       .toPromise()
       .catch(response => this.reject(response));
   }
 
   async put(usuario: Usuario): Promise<any> {
     return await this.http
-      .put(`${this.baseUrl}/${usuario.Id}`, usuario)
+      .put(`${this.url}/${usuario.Id}`, usuario)
       .toPromise()
       .catch(response => this.reject(response));
   }
