@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { UsuarioService } from '../usuario.service';
 import { ToastService } from 'src/app/shared/toast.service';
 
@@ -10,6 +11,8 @@ import { ToastService } from 'src/app/shared/toast.service';
   styleUrls: ['./usuario-form-pesquisa.component.css']
 })
 export class UsuarioFormPesquisaComponent implements OnInit {
+  modalRef: BsModalRef;
+
   nome: string;
   usuarios = [];
 
@@ -17,12 +20,14 @@ export class UsuarioFormPesquisaComponent implements OnInit {
   pageSize = 4;
   collectionSize = this.usuarios.length;
   pages = [1];
+  idUsuario: number;
 
   closeResult: string;
 
   constructor(
     private usuarioService: UsuarioService,
-    private toast: ToastService
+    private toast: ToastService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -59,13 +64,20 @@ export class UsuarioFormPesquisaComponent implements OnInit {
     });
   }
 
-  async delete(id: number) {
+  async delete() {
+    this.modalRef.hide();
+
     await this.usuarioService
-      .delete(id)
+      .delete(this.idUsuario)
       .then(() => {
         this.getAll();
         this.toast.success('Usuário excluído');
       })
       .catch(message => this.toast.error(message));
+  }
+
+  openConfirmDelete(template: TemplateRef<any>, id: number) {
+    this.idUsuario = id;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 }

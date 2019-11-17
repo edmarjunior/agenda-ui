@@ -58,7 +58,7 @@
               type="button"
               class="close"
               aria-label="Close"
-              (click)="delete(usuario.Id)"
+              (click)="openConfirmDelete(template, usuario.Id)"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -103,3 +103,15 @@
     </div>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Deseja realmente excluir?</p>
+    <button type="button" class="btn btn-default" (click)="delete()">
+      Sim
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modalRef.hide()">
+      Não
+    </button>
+  </div>
+</ng-template>

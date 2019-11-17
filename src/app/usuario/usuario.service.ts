@@ -46,7 +46,10 @@ export class UsuarioService {
   ) {}
 
   async post(usuario: Usuario): Promise<any> {
-    return await this.http.post(this.baseUrl, usuario).toPromise();
+    return await this.http
+      .post(this.baseUrl, usuario)
+      .toPromise()
+      .catch(response => this.reject(response));
   }
 
   async getAll(filtros: UsuarioFiltros): Promise<any> {
@@ -57,38 +60,36 @@ export class UsuarioService {
       .set('page', filtros.page.toString())
       .set('size', filtros.size.toString());
 
-    const response = this.http.get(this.baseUrl, { params }).toPromise();
-    return response;
+    return this.http
+      .get(this.baseUrl, { params })
+      .toPromise()
+      .catch(response => this.reject(response));
   }
 
   async get(id: number): Promise<any> {
     return await this.http
       .get(`${this.baseUrl}/${id}`)
       .toPromise()
-      .catch(response => {
-        return Promise.reject(
-          `Operação não realizada: ${response.Messages[0]}`
-        );
-      });
+      .catch(response => this.reject(response));
   }
 
   async delete(id: number): Promise<void> {
     await this.http
       .delete(`${this.baseUrl}/${id}`)
       .toPromise()
-      .catch(response => {
-        return Promise.reject(response.Messages[0]);
-      });
+      .catch(response => this.reject(response));
   }
 
   async put(usuario: Usuario): Promise<any> {
     return await this.http
       .put(`${this.baseUrl}/${usuario.Id}`, usuario)
       .toPromise()
-      .catch(response => {
-        return Promise.reject(
-          `Operação não realizada: ${response.Messages[0]}`
-        );
-      });
+      .catch(response => this.reject(response));
+  }
+
+  reject(response: any) {
+    return Promise.reject(
+      JSON.parse(JSON.stringify(response)).error.Messages[0]
+    );
   }
 }

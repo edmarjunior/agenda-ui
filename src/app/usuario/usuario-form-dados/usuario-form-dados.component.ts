@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UsuarioService } from '../usuario.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from 'src/app/shared/toast.service';
 
 class Usuario {
   Id: number;
@@ -39,11 +40,11 @@ class TelefoneTipo {
 })
 export class UsuarioFormDadosComponent implements OnInit {
   usuario = new Usuario();
-  usuarios = [];
 
   constructor(
     private usuarioService: UsuarioService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: ToastService
   ) {
     this.usuario.Endereco = new Endereco();
     this.usuario.Telefone = new Telefone();
@@ -54,28 +55,35 @@ export class UsuarioFormDadosComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     if (id) {
       this.get(id);
-      return;
     }
   }
 
   async get(id: number) {
     this.usuarioService
       .get(id)
-      .then(response => {
-        this.usuario = response.Content;
-      })
-      .catch(message => {
-        alert(message);
-      });
+      .then(response => (this.usuario = response.Content))
+      .catch(error => this.toast.error(error));
   }
 
-  async save(form: NgForm) {
-    if (this.usuario.Id) {
-      await this.usuarioService.put(this.usuario);
-    } else {
-      await this.usuarioService.post(this.usuario);
-    }
+  private async put() {
+    await this.usuarioService
+      .put(this.usuario)
+      .then(() => this.toast.success('Usuário atualizado'))
+      .catch(error => this.toast.error(error));
+  }
 
-    form.reset();
+  private async post() {
+    await this.usuarioService
+      .post(this.usuario)
+      .then(() => this.toast.success('Usuário cadastrado'))
+      .catch(error => this.toast.error(error));
+  }
+
+  async save() {
+    if (this.usuario.Id) {
+      this.put();
+      return;
+    }
+    this.post();
   }
 }
