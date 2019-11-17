@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-export interface UsuarioFiltros {
+export interface MedicoFiltros {
   nome: string;
   page: number;
   size: number;
 }
 
-export interface Usuario {
+export interface Medico {
   Id: number;
   Nome: string;
   Cpf: string;
@@ -40,23 +40,21 @@ export interface TelefoneTipo {
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class MedicoService {
   url: string;
 
   constructor(private http: HttpClient) {
-    this.url = `${environment.baseUrl}/api/usuarios`;
+    this.url = `${environment.baseUrl}/api/medicos`;
   }
 
-  async post(usuario: Usuario): Promise<any> {
+  async post(medico: Medico): Promise<any> {
     return await this.http
-      .post(this.url, usuario)
+      .post(this.url, medico)
       .toPromise()
       .catch(response => this.reject(response));
   }
 
-  async getAll(filtros: UsuarioFiltros): Promise<any> {
-    // const headers = new Headers();
-
+  async getAll(filtros: MedicoFiltros): Promise<any> {
     const params = new HttpParams()
       .set('nome', filtros.nome || '')
       .set('page', filtros.page.toString())
@@ -82,9 +80,9 @@ export class UsuarioService {
       .catch(response => this.reject(response));
   }
 
-  async put(usuario: Usuario): Promise<any> {
+  async put(medico: Medico): Promise<any> {
     return await this.http
-      .put(`${this.url}/${usuario.Id}`, usuario)
+      .put(`${this.url}/${medico.Id}`, medico)
       .toPromise()
       .catch(response => this.reject(response));
   }

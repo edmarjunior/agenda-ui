@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { UsuarioService } from '../usuario.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { Title } from '@angular/platform-browser';
+import { PacienteService } from '../paciente.service';
 
-class Usuario {
+class Paciente {
   Id: number;
   Nome: string;
   Cpf: string;
@@ -35,61 +35,61 @@ class TelefoneTipo {
 }
 
 @Component({
-  selector: 'app-usuario-form-dados',
-  templateUrl: './usuario-form-dados.component.html',
-  styleUrls: ['./usuario-form-dados.component.css']
+  selector: 'app-paciente-form-dados',
+  templateUrl: './paciente-form-dados.component.html',
+  styleUrls: ['./paciente-form-dados.component.css']
 })
-export class UsuarioFormDadosComponent implements OnInit {
-  usuario = new Usuario();
+export class PacienteFormDadosComponent implements OnInit {
+  paciente = new Paciente();
 
   constructor(
-    private usuarioService: UsuarioService,
+    private pacienteService: PacienteService,
     private route: ActivatedRoute,
     private toast: ToastService,
     private router: Router,
     private title: Title
   ) {
-    this.usuario.Endereco = new Endereco();
-    this.usuario.Telefone = new Telefone();
-    this.usuario.Telefone.Tipo = new TelefoneTipo();
+    this.paciente.Endereco = new Endereco();
+    this.paciente.Telefone = new Telefone();
+    this.paciente.Telefone.Tipo = new TelefoneTipo();
   }
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
     if (id) {
-      this.title.setTitle('Edição - Usuário');
+      this.title.setTitle('Edição - Paciente');
       this.get(id);
     } else {
-      this.title.setTitle('Cadastro - Usuário');
+      this.title.setTitle('Cadastro - Paciente');
     }
   }
 
   async get(id: number) {
-    this.usuarioService
+    this.pacienteService
       .get(id)
-      .then(response => (this.usuario = response.Content))
+      .then(response => (this.paciente = response.Content))
       .catch(error => this.toast.error(error));
   }
 
   private async put() {
-    await this.usuarioService
-      .put(this.usuario)
-      .then(() => this.toast.success('Usuário atualizado'))
+    await this.pacienteService
+      .put(this.paciente)
+      .then(() => this.toast.success('Paciente atualizado'))
       .catch(error => this.toast.error(error));
   }
 
   private async post() {
-    await this.usuarioService
-      .post(this.usuario)
+    await this.pacienteService
+      .post(this.paciente)
       .then(response => {
-        this.toast.success('Usuário cadastrado');
-        this.router.navigate(['/usuarios', response.Content.Id]);
+        this.toast.success('Paciente cadastrado');
+        this.router.navigate(['/pacientes', response.Content.Id]);
       })
       .catch(error => this.toast.error(error));
   }
 
   async save() {
-    if (this.usuario.Id) {
+    if (this.paciente.Id) {
       this.put();
       return;
     }

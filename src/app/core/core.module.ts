@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsuarioModule } from '../usuario/usuario.module';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
-import { UsuarioService } from '../usuario/usuario.service';
 import { AppRoutingModule } from './app-routing-module';
+import { PacienteModule } from '../paciente/paciente.module';
+import { MedicoModule } from '../medico/medico.module';
 
 @NgModule({
   declarations: [NavbarComponent, PaginaNaoEncontradaComponent],
-  imports: [UsuarioModule, AppRoutingModule],
+  imports: [UsuarioModule, PacienteModule, MedicoModule, AppRoutingModule],
   exports: [NavbarComponent],
-  providers: [Title, UsuarioService, { provide: 'logPrefix', useValue: 'LOG2' }]
+  providers: [Title]
 })
 export class CoreModule {}
