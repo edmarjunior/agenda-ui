@@ -35,7 +35,7 @@ export class MedicoFormPesquisaComponent implements OnInit {
   }
 
   async getAll() {
-    if (this.page > this.pages.length) {
+    if (this.page !== 1 && this.page > this.pages.length) {
       this.page = this.pages.length;
       return;
     }
@@ -51,17 +51,20 @@ export class MedicoFormPesquisaComponent implements OnInit {
       size: this.pageSize
     };
 
-    await this.medicoService.getAll(filtros).then(response => {
-      this.medicos = response.Content;
-      this.collectionSize = response.TotalLength;
+    await this.medicoService
+      .getAll(filtros)
+      .then(response => {
+        this.medicos = response.Content;
+        this.collectionSize = response.TotalLength;
 
-      this.pages = [];
-      const totalPages = Math.ceil(this.collectionSize / this.pageSize);
+        this.pages = [];
+        const totalPages = Math.ceil(this.collectionSize / this.pageSize);
 
-      for (let i = 0; i < totalPages; i++) {
-        this.pages.push(i + 1);
-      }
-    });
+        for (let i = 0; i < totalPages; i++) {
+          this.pages.push(i + 1);
+        }
+      })
+      .catch(message => this.toast.error(message));
   }
 
   async delete() {

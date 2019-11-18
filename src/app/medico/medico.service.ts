@@ -54,11 +54,15 @@ export class MedicoService {
       .catch(response => this.reject(response));
   }
 
-  async getAll(filtros: MedicoFiltros): Promise<any> {
-    const params = new HttpParams()
-      .set('nome', filtros.nome || '')
-      .set('page', filtros.page.toString())
-      .set('size', filtros.size.toString());
+  async getAll(filtros: MedicoFiltros = null): Promise<any> {
+    let params: HttpParams;
+
+    if (filtros) {
+      params = new HttpParams()
+        .set('nome', filtros.nome || '')
+        .set('page', filtros.page.toString())
+        .set('size', filtros.size.toString());
+    }
 
     return this.http
       .get(this.url, { params })
